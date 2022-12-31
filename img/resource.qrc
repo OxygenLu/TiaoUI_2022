@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="image">
+    <file>img/glass.jpg</file>
+    <file>img/hand.png</file>
+    <file>img/cover.jpg</file>
+  </qresource>
+  <qresource prefix="icon">
+    <file>img/key.png</file>
+    <file>img/offscreen.png</file>
+    <file>img/QQ_tencent.png</file>
+    <file>img/wechat.png</file>
+    <file>img/avatar.png</file>
+    <file>img/close.png</file>
+    <file>img/github.png</file>
+  </qresource>
+</RCC>
