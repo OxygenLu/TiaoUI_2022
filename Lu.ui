@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1182</width>
+    <height>686</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>569</y>
+      <width>1111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QProgressBar{
+	background-color: rgb(0,0 ,0 );
+	border-style:none;
+    border-radius:10px;
+    color:rgb(255,0,0)
+}
+QProgressBar::chunk{
+	background-color: qlineargradient(spread: pad, x1:0, y1:1, x2:1, y2:1, stop:0 rgba(0,136, 255, 255), stop:1 rgba(255,255,255,255));
+	border-radius:10px;
+}
+</string>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>3</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>600</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Initializing ...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blackground">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>1140</width>
+      <height>644</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(C:/Users/HP/Pictures/Saved Pictures/封面.png);
+border-top-left-radius:30px;
+border-top-right-radius:30px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="begin">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>600</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#begin{
+border:2px solid rgb(255, 255, 255);
+color:white;
+font: 12pt &quot;微软雅黑&quot;;
+border-radius:10px;
+}
+#begin:pressed{
+	padding-top:5px;
+	padding-left:5px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>开始</string>
+    </property>
+   </widget>
+   <zorder>blackground</zorder>
+   <zorder>progressBar</zorder>
+   <zorder>label</zorder>
+   <zorder>begin</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1182</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

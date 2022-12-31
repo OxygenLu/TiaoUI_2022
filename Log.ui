@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>654</width>
+    <height>852</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>511</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(243, 182, 107);
+border-top-left-radius:25px;
+border-top-right-radius:25px;
+
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>210</y>
+      <width>511</width>
+      <height>611</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+border-image: url(:/image/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/glass.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>20</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="small">
+       <property name="styleSheet">
+        <string notr="true">#small{
+	border:none;
+}
+
+
+#small:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource/resource.qrc">
+         <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/offscreen.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/offscreen.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="close">
+       <property name="styleSheet">
+        <string notr="true">#close{
+border:none;
+}
+
+#close:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource/resource.qrc">
+         <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/close.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/close.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>660</y>
+      <width>421</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="styleSheet">
+        <string notr="true">#pushButton_3{
+border:none;
+}
+
+
+#pushButton_3:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource/resource.qrc">
+         <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/QQ_tencent.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/QQ_tencent.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="styleSheet">
+        <string notr="true">#pushButton_2{
+border:none;
+}
+
+
+#pushButton_2:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource/resource.qrc">
+         <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/github.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/github.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="styleSheet">
+        <string notr="true">#pushButton{
+border:none;
+}
+
+
+#pushButton:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource/resource.qrc">
+         <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/wechat.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/wechat.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>270</y>
+      <width>401</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>40</y>
+       <width>271</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+border:2px solid; 
+border-radius:10px;
+font: 16pt &quot;HP Simplified&quot;;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_4">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="resource/resource.qrc">
+       <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/avatar.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/avatar.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>130</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="resource/resource.qrc">
+       <normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/key.png</normaloff>:/icon/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/key.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>130</y>
+       <width>271</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+border:2px solid; 
+border-radius:10px;
+font: 16pt &quot;HP Simplified&quot;;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>200</y>
+       <width>331</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="styleSheet">
+         <string notr="true">color:white;
+font: 9pt &quot;微软雅黑&quot;;</string>
+        </property>
+        <property name="text">
+         <string>自动登录</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="styleSheet">
+         <string notr="true">color:blue;
+font: 9pt &quot;微软雅黑&quot;;
+text-decoration: underline;
+border:none;</string>
+        </property>
+        <property name="text">
+         <string>忘记密码</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="Log">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>300</y>
+       <width>159</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#Log{
+border-radius:10px;
+font: 16pt &quot;幼圆&quot;;
+color:white;
+border:2px solid rgb(255, 255, 255)
+}
+#Log:hover{
+	background-color: rgb(209, 209, 209);
+	color:rgb(255,255,255)
+
+}
+#Log:pressed{
+	padding-top:5px;
+	padding-left:5px;
+
+}</string>
+     </property>
+     <property name="text">
+      <string>登录</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>740</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;
+
+font: 9pt &quot;微软雅黑&quot;;</string>
+    </property>
+    <property name="text">
+     <string>请选择输入方式</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>-20</y>
+      <width>281</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/image/C:/Users/HP/Desktop/_tiao/2022TZB-UI-main/2022tzb-ui/img/hand.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>label_2</zorder>
+   <zorder>label</zorder>
+   <zorder>widget</zorder>
+   <zorder>horizontalLayoutWidget</zorder>
+   <zorder>widget_2</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_4</zorder>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resource/resource.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>close</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>555</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>620</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>small</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showMinimized()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>484</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>619</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
