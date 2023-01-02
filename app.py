@@ -6,6 +6,7 @@ from interface import Window
 from process import Identify
 from client import Client
 
+
 class App:
     def __init__(self):
         super().__init__()
@@ -15,13 +16,13 @@ class App:
         self.identify = Identify(self.win)
         self.client = Client(self)
 
-    def run(self):
+    def run(self, has_father_window=False):
         self.identify.start()
         self.client.start()
-        sys.exit(self.qapp.exec_())
+        if not has_father_window:
+            sys.exit(self.qapp.exec_())
 
 
 if __name__ == '__main__':
     app = App()
     app.run()
-

@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 import sys
 import time
+from app import App
 
 progressBarValue = 3
 
@@ -18,7 +19,7 @@ class InitWindow(QMainWindow):
         self.ui.setupUi(self)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.appProgress)
-        self.timer.start(100)
+        self.timer.start(20)
         self.ui.begin.clicked.connect(self.Begin)  # 将信号连接到槽
         self.show()
 
@@ -49,31 +50,13 @@ class LogWindow(QMainWindow):
 
     def LogIn(self):
         if self.ui.lineEdit.text() == "lxj" and self.ui.lineEdit_2.text() == "123":
+            # 关闭当前窗口，打开App窗口
+            app = App()
             self.close()
-            # print("1")
-            self.mainWin = App()
-            self.mainWin.run()
-            # self.mainWin.show()  # 主窗口显示出来
-
-
-
-class App:
-    def __init__(self):
-        super().__init__()
-        self.qapp = QApplication(sys.argv)
-        self.win = Window(self)
-        self.win.show()
-
-
-    def run(self):
-        self.identify = Identify(self.win)
-        self.client = Client(self)
-        self.identify.start()
-        self.client.start()
-        sys.exit(self.qapp.exec_())
+            app.run(True)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = InitWindow()
-    sys.exit(app.exec())
+    sys.exit(app.exec_())
