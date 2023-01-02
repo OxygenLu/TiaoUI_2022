@@ -3,7 +3,7 @@ from threading import Thread
 import time
 import json
 
-ADDRESS = ('127.0.0.1', 8712)  # 绑定地址
+ADDRESS = ('127.0.0.1', 12345)  # 绑定地址
 
 g_socket_server = None  # 负责监听的socket
 

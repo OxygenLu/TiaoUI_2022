@@ -1,5 +1,5 @@
 import threading
-import cv2
+import cv2 as cv2
 import time
 from GRU import *
 import torch
@@ -34,8 +34,9 @@ class Identify:
 
         mp_drawing = mp.solutions.drawing_utils  # 坐标点绘制工具
         mp_hands = mp.solutions.hands
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # 摄像头图像采集
+        cap = cv2.VideoCapture(0)  # 摄像头图像采集
         ratio = cap.get(4) / cap.get(3)  # 高宽比
+        # ratio = 1
 
         with mp_hands.Hands(
                 static_image_mode=False,

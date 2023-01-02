@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QApplication
 from interface import Window
 from process import Identify
 from client import Client
-from reaction import Reaction
 
 class App:
     def __init__(self):
@@ -15,8 +14,12 @@ class App:
         self.win.show()
         self.identify = Identify(self.win)
         self.client = Client(self)
+
+    def run(self):
         self.identify.start()
         self.client.start()
+        sys.exit(self.qapp.exec_())
+
 
 if __name__ == '__main__':
     app = App()

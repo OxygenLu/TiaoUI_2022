@@ -14,12 +14,13 @@ class Client:
         threading.Thread(target=self.run).start()
 
     def run(self):
+        self.start_server()
         while True:
             try:
                 # self.client.connect(('zhude.guet.ltd', 12345))  # 建立一个链接，连接到服务器的端
                 self.client.connect((self.host, 12345))  # 建立一个链接，连接到本地的端口
                 break
-            except ConnectionRefusedError:
+            except:
                 self.start_server()
                 continue
 

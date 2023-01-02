@@ -32,6 +32,7 @@ class Identify:
         mp_hands = mp.solutions.hands
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         ratio = cap.get(4) / cap.get(3)  # 高宽比
+        print(cap.isOpened())
 
         with mp_hands.Hands(
                 static_image_mode=False,
