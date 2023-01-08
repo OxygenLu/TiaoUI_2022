@@ -33,8 +33,8 @@ def main():
     mp_drawing = mediapipe.solutions.drawing_utils
     mp_hands = mediapipe.solutions.hands
     hands = mp_hands.Hands(
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5,
+        min_detection_confidence=0.9,
+        min_tracking_confidence=0.9,
         max_num_hands=1
     )
     cap = cv2.VideoCapture(0)
@@ -86,7 +86,7 @@ def main():
                     for xx3, yy3 in mouse_points:
                         xx3_sum += xx3
                         yy3_sum += yy3
-                    mouse.position = (xx3_sum // smoothening, yy3_sum // smoothening)
+                    mouse.position = (wScr - (xx3_sum // smoothening), yy3_sum // smoothening)
                     cv2.circle(img, (x1, y1), 15, (0, 0, 255), cv2.FILLED)
                     plocX, plocY = clocX, clocY
 
@@ -144,7 +144,7 @@ def main():
                     if not leftDown:
                         mouse.press(Button.left)
                         leftDown = True
-                if length > 25:
+                if length > 45:
                     # 模拟左键松开
                     if leftDown:
                         mouse.release(Button.left)
