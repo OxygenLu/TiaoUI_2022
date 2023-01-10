@@ -18,34 +18,33 @@ color_set_deep = [(197, 202, 233), (209, 196, 233), (225, 190, 231), (248, 187, 
 offset = -90 - 25
 MODE_NAME = ['Do Nothing', 'Move And Click', 'PPT Printer', 'AAA', 'BBB']
 
+# Define Values
+DO_NOTHING = 0
+MOVE_AND_CLICK = 1
+PPT_WRITE = 2
+NOW_MODE = DO_NOTHING
 
-# Update Push
+NOW_MODE_COLOR = color_set[0]
+pTime = 0
+bef_clicked = 0
+frameR = 100  # Frame Reduction
+smoothening = 8
+detector = htm.HandDetector(maxHands=1)
+
+cap = cv2.VideoCapture(0)
+wCam, hCam = (0, 0)
+wScr, hScr = 1920, 1080
+plocX, plocY = 0, 0
+clocX, clocY = 0, 0
+leftDown = False
+# Colors Set When Select Mode
+
+# Points
+mouse_points = deque(maxlen=smoothening)
+
 
 def main():
-    DO_NOTHING = 0
-    MOVE_AND_CLICK = 1
-    PPT_WRITE = 2
-    NOW_MODE = DO_NOTHING
-
-
-    NOW_MODE_COLOR = color_set[0]
-    pTime = 0
-    bef_clicked = 0
-    frameR = 100  # Frame Reduction
-    smoothening = 8
-    detector = htm.HandDetector(maxHands=1)
-
-
-    cap = cv2.VideoCapture(0)
-    wCam, hCam = (0, 0)
-    wScr, hScr = 1920, 1080
-    plocX, plocY = 0, 0
-    clocX, clocY = 0, 0
-    leftDown = False
-    # Colors Set When Select Mode
-
-    # Points
-    mouse_points = deque(maxlen=smoothening)
+    global plocY, NOW_MODE, wCam, hCam, plocX, bef_clicked, leftDown, pTime, NOW_MODE_COLOR
     if cap.isOpened():
         success, img = cap.read()
         wCam, hCam = img.shape[1], img.shape[0]
@@ -67,87 +66,12 @@ def main():
                           (255, 0, 255), 2)
 
             if NOW_MODE == MOVE_AND_CLICK:
-                # 一根手指：移动指针
-                if fingers[1] == 1 and fingers[2] == 0:
-                    cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR), (255, 0, 255), 2)
-                    x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
-                    y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
-                    # x3 = np.interp(x1, (wCam - frameR, frameR), (0, wScr))
-                    # y3 = np.interp(y1, (hCam - frameR, frameR), (0, hScr))
-
-                    # Smoothen Values
-                    clocX = plocX + (x3 - plocX) / smoothening
-                    clocY = plocY + (y3 - plocY) / smoothening
-                    # mouse move
-
-                    mouse_points.append((x3, y3))
-                    xx3_sum, yy3_sum = 0, 0
-                    for xx3, yy3 in mouse_points:
-                        xx3_sum += xx3
-                        yy3_sum += yy3
-                    mouse.position = (wScr - (xx3_sum // smoothening), yy3_sum // smoothening)
-                    cv2.circle(img, (x1, y1), 15, (0, 0, 255), cv2.FILLED)
-                    plocX, plocY = clocX, clocY
-
-                if fingers[1] == 1 and fingers[2] == 1:
-                    leng, img, _ = detector.findDistance(8, 12, img)
-                    print(leng)
-                    if leng < 40:
-                        cv2.circle(img, (x1, y1), 15, (0, 255, 0), cv2.FILLED)
-                        if time.time() - bef_clicked > 0.5:
-                            mouse.click(Button.left, 1)
-                            bef_clicked = time.time()
-
-                # if fingers == [1, 1, 1, 1, 1]:
-                #     # 模拟Enter
-                #     if time.time() - bef_clicked > 0.5:
-                #         keyboard.press(pynput.keyboard.Key.enter)
-                #         bef_clicked = time.time()
+                img = MOVE_AND_CLICK_FUNC(fingers, hCam, img, wCam, x1, y1)
 
             elif NOW_MODE == PPT_WRITE:
-                # 食指和大拇指的坐标
-                x_shi, y_shi = lmList[8][1:]
-                x_damu, y_damu = lmList[4][1:]
-                # 两个手指之间连线
-                cx = (x_shi + x_damu) // 2
-                cy = (y_shi + y_damu) // 2
-                cv2.circle(img, (cx, cy), 15, (0, 0, 255), cv2.FILLED)
-                # 两个手指之间的距离
-                length = math.hypot(x_damu - x_shi, y_damu - y_shi)
-                print(length)
-                # 中点
+                PPT_WRITER_FUNC(hCam, img, lmList, wCam)
 
-                cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR), (255, 0, 255), 2)
-                x3 = np.interp(cx, (frameR, wCam - frameR), (0, wScr))
-                y3 = np.interp(cy, (frameR, hCam - frameR), (0, hScr))
-                # x3 = np.interp(x1, (wCam - frameR, frameR), (0, wScr))
-                # y3 = np.interp(y1, (hCam - frameR, frameR), (0, hScr))
-
-                # Smoothen Values
-                clocX = plocX + (x3 - plocX) / smoothening
-                clocY = plocY + (y3 - plocY) / smoothening
-                # mouse move
-
-                mouse_points.append((wScr - x3, y3))
-                xx3_sum, yy3_sum = 0, 0
-                for xx3, yy3 in mouse_points:
-                    xx3_sum += xx3
-                    yy3_sum += yy3
-                mouse.position = (xx3_sum // smoothening, yy3_sum // smoothening)
-                plocX, plocY = clocX, clocY
-
-                if length <= 25:
-                    # 模拟左键一直按下
-                    # 如果左键已经按下，就不再按下
-                    if not leftDown:
-                        mouse.press(Button.left)
-                        leftDown = True
-                if length > 45:
-                    # 模拟左键松开
-                    if leftDown:
-                        mouse.release(Button.left)
-                        leftDown = False
-
+            # Selecting Mode
             if fingers == [0, 1, 1, 1, 1]:
                 NOW_MODE, NOW_MODE_COLOR = select_mode(img, lmList, offset, x2, y2)
 
@@ -168,6 +92,87 @@ def main():
         cv2.imshow('MediaPipe Hands', img)
         if cv2.waitKey(5) & 0xFF == 27:
             break
+
+
+def PPT_WRITER_FUNC(hCam, img, lmList, wCam):
+    global plocX, plocY, leftDown
+    # 食指和大拇指的坐标
+    x_shi, y_shi = lmList[8][1:]
+    x_damu, y_damu = lmList[4][1:]
+    # 两个手指之间连线
+    cx = (x_shi + x_damu) // 2
+    cy = (y_shi + y_damu) // 2
+    cv2.circle(img, (cx, cy), 15, (0, 0, 255), cv2.FILLED)
+    # 两个手指之间的距离
+    length = math.hypot(x_damu - x_shi, y_damu - y_shi)
+    print(length)
+    # 中点
+    cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR), (255, 0, 255), 2)
+    x3 = np.interp(cx, (frameR, wCam - frameR), (0, wScr))
+    y3 = np.interp(cy, (frameR, hCam - frameR), (0, hScr))
+    # x3 = np.interp(x1, (wCam - frameR, frameR), (0, wScr))
+    # y3 = np.interp(y1, (hCam - frameR, frameR), (0, hScr))
+    # Smoothen Values
+    clocX = plocX + (x3 - plocX) / smoothening
+    clocY = plocY + (y3 - plocY) / smoothening
+    # mouse move
+    mouse_points.append((wScr - x3, y3))
+    xx3_sum, yy3_sum = 0, 0
+    for xx3, yy3 in mouse_points:
+        xx3_sum += xx3
+        yy3_sum += yy3
+    mouse.position = (xx3_sum // smoothening, yy3_sum // smoothening)
+    plocX, plocY = clocX, clocY
+    if length <= 25:
+        # 模拟左键一直按下
+        # 如果左键已经按下，就不再按下
+        if not leftDown:
+            mouse.press(Button.left)
+            leftDown = True
+    if length > 45:
+        # 模拟左键松开
+        if leftDown:
+            mouse.release(Button.left)
+            leftDown = False
+
+
+def MOVE_AND_CLICK_FUNC(fingers, hCam, img, wCam, x1, y1):
+    global plocX, plocY, bef_clicked
+    # 一根手指：移动指针
+    if fingers[1] == 1 and fingers[2] == 0:
+        cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR), (255, 0, 255), 2)
+        x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
+        y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+        # x3 = np.interp(x1, (wCam - frameR, frameR), (0, wScr))
+        # y3 = np.interp(y1, (hCam - frameR, frameR), (0, hScr))
+
+        # Smoothen Values
+        clocX = plocX + (x3 - plocX) / smoothening
+        clocY = plocY + (y3 - plocY) / smoothening
+        # mouse move
+
+        mouse_points.append((x3, y3))
+        xx3_sum, yy3_sum = 0, 0
+        for xx3, yy3 in mouse_points:
+            xx3_sum += xx3
+            yy3_sum += yy3
+        mouse.position = (wScr - (xx3_sum // smoothening), yy3_sum // smoothening)
+        cv2.circle(img, (x1, y1), 15, (0, 0, 255), cv2.FILLED)
+        plocX, plocY = clocX, clocY
+    if fingers[1] == 1 and fingers[2] == 1:
+        leng, img, _ = detector.findDistance(8, 12, img)
+        print(leng)
+        if leng < 40:
+            cv2.circle(img, (x1, y1), 15, (0, 255, 0), cv2.FILLED)
+            if time.time() - bef_clicked > 0.5:
+                mouse.click(Button.left, 1)
+                bef_clicked = time.time()
+    # if fingers == [1, 1, 1, 1, 1]:
+    #     # 模拟Enter
+    #     if time.time() - bef_clicked > 0.5:
+    #         keyboard.press(pynput.keyboard.Key.enter)
+    #         bef_clicked = time.time()
+    return img
 
 
 def select_mode(img, lmList, offset, x2, y2):
