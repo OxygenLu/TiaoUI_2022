@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+# Created By LuXijun
+
 
 class Ui_initWindow(object):
     def setupUi(self, MainWindow):
