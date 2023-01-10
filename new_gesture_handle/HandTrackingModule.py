@@ -79,6 +79,23 @@ class HandDetector:
         else:
             return allHands
 
+    def vector_2d_angle(self, v1, v2):
+        '''
+            求解二维向量的角度
+        '''
+        v1_x = v1[0]
+        v1_y = v1[1]
+        v2_x = v2[0]
+        v2_y = v2[1]
+        try:
+            angle_ = math.degrees(math.acos(
+                (v1_x * v2_x + v1_y * v2_y) / (((v1_x ** 2 + v1_y ** 2) ** 0.5) * ((v2_x ** 2 + v2_y ** 2) ** 0.5))))
+        except:
+            angle_ = 65535.
+        if angle_ > 180.:
+            angle_ = 65535.
+        return angle_
+
     def fingersUp(self, lmList):
         # fingers = []
         # # Thumb
@@ -94,28 +111,46 @@ class HandDetector:
         #     else:
         #         fingers.append(0)
 
-            # totalFingers = fingers.count(1)
+        # totalFingers = fingers.count(1)
 
         # return fingers
 
         fingerList = []
+
         id, originx, originy = lmList[0]
-        keypoint_list = [[2, 4], [6, 8], [10, 12], [14, 16], [18, 20]]
-        if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+        keypoint_list = [[4, 3], [6, 8], [10, 12], [14, 16], [18, 20]]
+
+        # if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+        #     fingerList.append(1)
+        # else:
+        #     fingerList.append(0)
+
+        # 计算大拇指角度
+        # angle_ = vector_2d_angle(
+        #         ((int(hand_[0][0])- int(hand_[2][0])),(int(hand_[0][1])-int(hand_[2][1]))),
+        #         ((int(hand_[3][0])- int(hand_[4][0])),(int(hand_[3][1])- int(hand_[4][1])))
+        #         )
+
+        thumb_angle = self.vector_2d_angle(
+            ((int(lmList[0][1]) - int(lmList[2][1])), (int(lmList[0][2]) - int(lmList[2][2]))),
+            ((int(lmList[3][1]) - int(lmList[4][1])), (int(lmList[3][2]) - int(lmList[4][2])))
+        )
+
+        if thumb_angle < 72:
             fingerList.append(1)
         else:
             fingerList.append(0)
+
         for point in keypoint_list[1:]:
             id, x1, y1 = lmList[point[0]]
             id, x2, y2 = lmList[point[1]]
+
             if math.hypot(x2 - originx, y2 - originy) > math.hypot(x1 - originx, y1 - originy):
                 fingerList.append(1)
             else:
                 fingerList.append(0)
 
-
         return fingerList
-
 
     def findDistance(self, p1, p2, img, draw=True, r=15, t=3):
         x1, y1 = self.lmList[p1][1:]
@@ -154,7 +189,7 @@ class HandDetector:
                 cx, cy, cz = int(lm.x * w), int(lm.y * h), lm.z
                 cz = myHand.landmark[id].z
                 depth_z = cz0 - cz
-                radius = int(6 * (1 + depth_z*5))
+                radius = int(6 * (1 + depth_z * 5))
                 # print(f'Radius: {radius}')
                 xList.append(cx)
                 yList.append(cy)
@@ -165,4 +200,3 @@ class HandDetector:
             ymin, ymax = min(yList), max(yList)
             bbox = xmin, ymin, xmax, ymax
         return self.lmList, bbox, radius
-
