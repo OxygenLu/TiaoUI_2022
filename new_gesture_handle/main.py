@@ -17,27 +17,25 @@ color_set = [(83, 109, 254), (124, 77, 255), (255, 64, 129), (255, 82, 82), (83,
 color_set_deep = [(197, 202, 233), (209, 196, 233), (225, 190, 231), (248, 187, 208), (255, 205, 210)]
 offset = -90 - 25
 MODE_NAME = ['Do Nothing', 'Move And Click', 'PPT Printer', 'AAA', 'BBB']
+
+
 # Update Push
 
 def main():
-    NOTHING = 0
+    DO_NOTHING = 0
     MOVE_AND_CLICK = 1
     PPT_WRITE = 2
-    NOW_MODE = 0
+    NOW_MODE = DO_NOTHING
+
+
     NOW_MODE_COLOR = color_set[0]
     pTime = 0
     bef_clicked = 0
     frameR = 100  # Frame Reduction
     smoothening = 8
     detector = htm.HandDetector(maxHands=1)
-    # MediaPipe
-    mp_drawing = mediapipe.solutions.drawing_utils
-    mp_hands = mediapipe.solutions.hands
-    hands = mp_hands.Hands(
-        min_detection_confidence=0.9,
-        min_tracking_confidence=0.9,
-        max_num_hands=1
-    )
+
+
     cap = cv2.VideoCapture(0)
     wCam, hCam = (0, 0)
     wScr, hScr = 1920, 1080
@@ -55,7 +53,7 @@ def main():
         success, img = cap.read()
         # img = cv2.flip(img, 1)
         all_hands, img = detector.findHands(img)
-        lmList, bbox = detector.findPosition(img)
+        lmList, bbox, depth_radius = detector.findPosition(img)
 
         # 取食指和中指的尖端
         if len(lmList) != 0:
@@ -63,7 +61,7 @@ def main():
             x2, y2 = lmList[12][1:]
 
             # 3. Check which fingers are up
-            fingers = detector.fingersUp()
+            fingers = detector.fingersUp(lmList)
             print(fingers)
             cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR),
                           (255, 0, 255), 2)
@@ -100,11 +98,11 @@ def main():
                             mouse.click(Button.left, 1)
                             bef_clicked = time.time()
 
-                if fingers == [1, 1, 1, 1, 1]:
-                    # 模拟Enter
-                    if time.time() - bef_clicked > 0.5:
-                        keyboard.press(pynput.keyboard.Key.enter)
-                        bef_clicked = time.time()
+                # if fingers == [1, 1, 1, 1, 1]:
+                #     # 模拟Enter
+                #     if time.time() - bef_clicked > 0.5:
+                #         keyboard.press(pynput.keyboard.Key.enter)
+                #         bef_clicked = time.time()
 
             elif NOW_MODE == PPT_WRITE:
                 # 食指和大拇指的坐标
@@ -137,7 +135,6 @@ def main():
                     yy3_sum += yy3
                 mouse.position = (xx3_sum // smoothening, yy3_sum // smoothening)
                 plocX, plocY = clocX, clocY
-
 
                 if length <= 25:
                     # 模拟左键一直按下
@@ -212,7 +209,6 @@ def select_mode(img, lmList, offset, x2, y2):
 
     x_selected = x0 + 1.1 * distance * math.cos(nearest_i_angle * math.pi / 180)
     y_selected = y0 + 1.1 * distance * math.sin(nearest_i_angle * math.pi / 180)
-
 
     cv2.circle(img,
                (int(x_selected), int(y_selected)),

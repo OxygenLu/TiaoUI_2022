@@ -79,24 +79,43 @@ class HandDetector:
         else:
             return allHands
 
-    def fingersUp(self):
-        fingers = []
-        # Thumb
-        if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
-            fingers.append(1)
-        else:
-            fingers.append(0)
-
-        # Fingers
-        for id in range(1, 5):
-            if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id] - 2][2]:
-                fingers.append(1)
-            else:
-                fingers.append(0)
+    def fingersUp(self, lmList):
+        # fingers = []
+        # # Thumb
+        # if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+        #     fingers.append(1)
+        # else:
+        #     fingers.append(0)
+        #
+        # # Fingers
+        # for id in range(1, 5):
+        #     if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id] - 2][2]:
+        #         fingers.append(1)
+        #     else:
+        #         fingers.append(0)
 
             # totalFingers = fingers.count(1)
 
-        return fingers
+        # return fingers
+
+        fingerList = []
+        id, originx, originy = lmList[0]
+        keypoint_list = [[2, 4], [6, 8], [10, 12], [14, 16], [18, 20]]
+        if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+            fingerList.append(1)
+        else:
+            fingerList.append(0)
+        for point in keypoint_list[1:]:
+            id, x1, y1 = lmList[point[0]]
+            id, x2, y2 = lmList[point[1]]
+            if math.hypot(x2 - originx, y2 - originy) > math.hypot(x1 - originx, y1 - originy):
+                fingerList.append(1)
+            else:
+                fingerList.append(0)
+
+
+        return fingerList
+
 
     def findDistance(self, p1, p2, img, draw=True, r=15, t=3):
         x1, y1 = self.lmList[p1][1:]
@@ -123,19 +142,27 @@ class HandDetector:
         yList = []
         bbox = []
         self.lmList = []
+        radius = -1
         if self.results.multi_hand_landmarks:
 
             myHand = self.results.multi_hand_landmarks[handNo]
+            # 获取手腕处的z
+            cz0 = myHand.landmark[0].z
+            print(f'Depth: {cz0}')
             for id, lm in enumerate(myHand.landmark):
                 h, w, c = img.shape
-                cx, cy = int(lm.x * w), int(lm.y * h)
+                cx, cy, cz = int(lm.x * w), int(lm.y * h), lm.z
+                cz = myHand.landmark[id].z
+                depth_z = cz0 - cz
+                radius = int(6 * (1 + depth_z*5))
+                # print(f'Radius: {radius}')
                 xList.append(cx)
                 yList.append(cy)
                 self.lmList.append([id, cx, cy])
-                if draw:
-                    cv2.circle(img, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
+                # if draw:
+                #     cv2.circle(img, (cx, cy), radius, (255, 0, 255), cv2.FILLED)
             xmin, xmax = min(xList), max(xList)
             ymin, ymax = min(yList), max(yList)
             bbox = xmin, ymin, xmax, ymax
-        return self.lmList, bbox
+        return self.lmList, bbox, radius
 
