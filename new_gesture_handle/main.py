@@ -17,6 +17,7 @@ color_set = [(83, 109, 254), (124, 77, 255), (255, 64, 129), (255, 82, 82), (83,
 color_set_deep = [(197, 202, 233), (209, 196, 233), (225, 190, 231), (248, 187, 208), (255, 205, 210)]
 offset = -90 - 25
 MODE_NAME = ['Do Nothing', 'Move And Click', 'PPT Printer', 'AAA', 'BBB']
+# Update Push
 
 def main():
     NOTHING = 0
