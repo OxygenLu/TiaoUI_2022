@@ -136,7 +136,7 @@ class HandDetector:
             ((int(lmList[3][1]) - int(lmList[4][1])), (int(lmList[3][2]) - int(lmList[4][2])))
         )
 
-        if thumb_angle < 72:
+        if thumb_angle < 60:
             fingerList.append(1)
         else:
             fingerList.append(0)

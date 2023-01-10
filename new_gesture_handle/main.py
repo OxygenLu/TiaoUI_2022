@@ -27,6 +27,7 @@ NOW_MODE = DO_NOTHING
 NOW_MODE_COLOR = color_set[0]
 pTime = 0
 bef_clicked = 0
+bef_selecting = 0
 frameR = 100  # Frame Reduction
 smoothening = 8
 detector = htm.HandDetector(maxHands=1)
@@ -44,7 +45,7 @@ mouse_points = deque(maxlen=smoothening)
 
 
 def main():
-    global plocY, NOW_MODE, wCam, hCam, plocX, bef_clicked, leftDown, pTime, NOW_MODE_COLOR
+    global plocY, NOW_MODE, wCam, hCam, plocX, bef_clicked, leftDown, pTime, NOW_MODE_COLOR, bef_selecting
     if cap.isOpened():
         success, img = cap.read()
         wCam, hCam = img.shape[1], img.shape[0]
@@ -73,7 +74,11 @@ def main():
 
             # Selecting Mode
             if fingers == [0, 1, 1, 1, 1]:
-                NOW_MODE, NOW_MODE_COLOR = select_mode(img, lmList, offset, x2, y2)
+                if bef_selecting == 0:
+                    bef_selecting = time.time()
+                if time.time() - bef_selecting > 0.8:
+                    NOW_MODE, NOW_MODE_COLOR = select_mode(img, lmList, offset, x2, y2)
+            else: bef_selecting = 0
 
         if not success:
             print("Ignoring empty camera frame.")
