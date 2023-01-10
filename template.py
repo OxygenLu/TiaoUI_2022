@@ -17,6 +17,7 @@ class InitWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_initWindow() #Ui类实例化()
         self.ui.setupUi(self)
+
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.appProgress)
         self.timer.start(20)
@@ -39,12 +40,17 @@ class InitWindow(QMainWindow):
             self.logIn = LogWindow()  # 将第二个窗口换个名字
             self.logIn.show()  # 经第二个窗口显示出来
 
+    
+
 # 登录界面
 class LogWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_logWindow() #Ui类实例化()
         self.ui.setupUi(self)
+        self.start_x = None
+        self.start_y = None
+
         self.ui.Log.clicked.connect(self.LogIn)  # 将信号连接到槽
         self.show()
 
@@ -54,6 +60,25 @@ class LogWindow(QMainWindow):
             app = App()
             self.close()
             app.run(True)
+
+    def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.LeftButton:
+            super(LogWindow, self).mousePressEvent(event)
+            self.start_x = event.x()
+            self.start_y = event.y()
+
+    def mouseReleaseEvent(self, event):
+        self.start_x = None
+        self.start_y = None
+
+    def mouseMoveEvent(self, event):
+        try:
+            super(LogWindow, self).mouseMoveEvent(event)
+            dis_x = event.x() - self.start_x
+            dis_y = event.y() - self.start_y
+            self.move(self.x() + dis_x, self.y() + dis_y)
+        except:
+            pass
 
 
 if __name__ == '__main__':
