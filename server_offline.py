@@ -1,5 +1,4 @@
 import socket
-from io import *
 from threading import *
 from typing import List
 
@@ -11,7 +10,6 @@ class ServerSocket(Thread):
         self.PORT = port
         self.clients: List[ClientServer] = []
         self.controller_stack = []
-
 
     def run(self):
         ss = socket.socket()  # 创建 socket 对象
@@ -183,4 +181,3 @@ class ClientServer(Thread):
             self.send(data)
         except Exception as e:
             print("尝试发送时发生错误", e)
-

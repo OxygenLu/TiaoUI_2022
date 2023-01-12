@@ -1,5 +1,6 @@
 import socket
 import threading
+
 from server_offline import ServerSocket
 
 
@@ -8,34 +9,41 @@ class Client:
         self.app = app
         self.type = 'receiver'
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 声明socket类型，同时生成链接对象
-        self.host = socket.gethostbyname(socket.gethostname())
+        self.host = "127.0.0.1"
+        self.pingTimes = 0
+        self.isPing = True
+        self.pingInterval = 60
+        self.timer = threading.Timer(self.pingInterval, self.send_ping)
 
     def start(self):
         threading.Thread(target=self.run).start()
 
     def run(self):
-        self.start_server()
         while True:
             try:
-                # self.client.connect(('zhude.guet.ltd', 12345))  # 建立一个链接，连接到服务器的端
-                self.client.connect((self.host, 12345))  # 建立一个链接，连接到本地的端口
+                self.client.connect((f'{self.host}', 12345))
+                print("服务器已连接")
+                self.send(self.type)
                 break
-            except:
-                self.start_server()
-                continue
-
+            except ConnectionRefusedError:
+                print("连接到远程服务器出错，尝试局域网……")
+                try:
+                    self.client.connect((self.host, 12345))
+                    print("局域网已连接")
+                except TimeoutError:
+                    print("局域网内未运行服务端，正在作为服务端启动……")
+                    self.start_server()
+                    print("本机服务端启动")
+                    continue
         try:
             while True:
                 if self.app.win.type == 'receiver':
-                    print('等待接收...')
-                    data = self.readline()  # 接收一个信息，并指定接收的大小 为1024字节
+                    # print('等待接收...')
+                    data = self.readline()
                     self.app.win.received.emit(data)
-                    print('recv:', data)  # 输出我接收的信息
-                # elif self.type == 'controller':
-                #     msg = input() + '\n'
-                #     self.send(msg.encode('utf8'))
+                    # print('接收:', data)
         finally:
-            self.client.close()  # 关闭这个链接
+            self.client.close()
 
     def readline(self, size: int = 32 * 1024):
         buf = b''
@@ -57,3 +65,14 @@ class Client:
     def start_server(self):
         server = ServerSocket(self.host, 12345)
         server.start()
+
+    def send_ping(self):
+        if self.isPing:
+            print('ping')
+            self.send('ping')
+            self.timer = threading.Timer(self.pingInterval, self.send_ping)
+            self.timer.start()
+
+    def stop_ping(self):
+        self.isPing = False
+

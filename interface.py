@@ -1,12 +1,15 @@
 import time
-
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from PyQt5.QtCore import QStringListModel, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QMessageBox
 import cv2
+
+from PyQt5 import QtGui
+from PyQt5.QtCore import QStringListModel, pyqtSignal
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
+
 from ui import Ui_MainWindow
 from threading import Event
 from reaction import Reaction
+from tutorialsWin import TutorialsWin
+from helpWin import HelpWin
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -16,11 +19,7 @@ class Window(QMainWindow, Ui_MainWindow):
         super(Window, self).__init__(parent)
         self.app = app
         self.setupUi(self)
-        # self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
-        # self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
         self.btn_start.clicked.connect(self.switch)
-        # self.label_img.setScaledContents(True)
         self.eventRunning = Event()
 
         self.member_list = []
@@ -39,17 +38,22 @@ class Window(QMainWindow, Ui_MainWindow):
         self.checkBox.stateChanged.connect(self.switch_target)
 
         self.reaction = Reaction()
+        self.action_tutorials.triggered.connect(self.show_tutorials_win)
+        self.action_help.triggered.connect(self.show_help_win)
+
+    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
+        self.app.client.stop_ping()
 
     def join(self):
-        # self.app.client.start()
-        self.app.client.send(self.app.client.type)
+        # self.app.client.send(self.app.client.type)
         self.name = self.lineEdit.text()
-        if self.name:
+        if self.name != '':
             self.app.client.send(self.name)  # 发送用户名
             self.btn_join.setEnabled(False)
             self.lineEdit.setEnabled(False)
             self.btn_join.setText("已加入会议")
             self.isLogin = True
+            self.app.identify.start()
         else:
             self.show_error("请输入用户名")
             self.lineEdit.setFocus()
@@ -84,6 +88,11 @@ class Window(QMainWindow, Ui_MainWindow):
             self.isTarget = False
 
     def get_data(self, data: str):
+        if data == 'pong':
+            return
+        elif data == 'ping':
+            self.app.client.timer.start()
+            return
         splits = data.split(' ')
         if splits[0] == 'command':
             self.set_log("控制者发出指令：" + splits[1])
@@ -129,10 +138,11 @@ class Window(QMainWindow, Ui_MainWindow):
         if self.isControlling:
             if self.isTarget:
                 self.textBrowser.append("控制本机：" + msg)
+                self.reaction.react(msg)
                 return
             if self.isController:
-                self.app.client.send("command " + msg)
                 self.set_log("你发出了指令：" + msg)
+                self.app.client.send("command " + msg)
                 return
 
     def set_log(self, msg):
@@ -151,7 +161,6 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def switch(self):
         if self.eventRunning.isSet():
-            # self.label_img.setPixmap(QPixmap(""))
             self.label_img.setText("Hellow\nWorld")
             self.btn_start.setText("开启识别")
             self.eventRunning.clear()
@@ -170,6 +179,10 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def clicked_list(self, q_model_index):
         self.target = self.member_list[q_model_index.row()]
-        # QMessageBox.information(self, "角色切换", "目标选择：" + self.member_list[q_model_index.row()])
-        # print("下标" + str(q_model_index.row()))
 
+    def show_tutorials_win(self):
+        self.switch()
+        TutorialsWin().exec_()
+
+    def show_help_win(self):
+        HelpWin().exec_()

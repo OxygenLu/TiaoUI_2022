@@ -22,60 +22,35 @@
      <widget class="QWidget" name="window" native="true">
       <property name="styleSheet">
        <string notr="true">QWidget#window{
-	font: 25 9pt &quot;微软雅黑 Light&quot;;
         background:white;
         border-radius:10px;
 
 }</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="8,0,0">
+      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="8,0,0">
        <property name="bottomMargin">
         <number>1</number>
        </property>
        <property name="spacing">
         <number>12</number>
        </property>
-       <item row="11" column="1" colspan="2">
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>主持人模式（本机可被控制）</string>
+       <item row="9" column="1" colspan="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>200</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="10" column="1" colspan="2">
-        <widget class="QLabel" name="label_res">
-         <property name="font">
-          <font>
-           <family>黑体</family>
-           <pointsize>32</pointsize>
-          </font>
-         </property>
+       <item row="8" column="1">
+        <widget class="QPushButton" name="btn_get_ctrl">
          <property name="styleSheet">
-          <string notr="true">border: 1px solid rgb(85, 170, 255);
-border-radius: 10px;
-padding: 0 8px;</string>
-         </property>
-         <property name="text">
-          <string>等待手势</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QPushButton" name="btn_join">
-         <property name="styleSheet">
-          <string notr="true">border:0px;
-
-/*background-image:url(:/images/btn-menu-02.png);*/
-
-/*font:16px &quot;微软雅黑&quot;;*/
-
-color: rgb(255, 255, 255);
+          <string notr="true">color: rgb(255, 255, 255);
 
 background-color: rgb(85, 170, 255);
 
@@ -85,78 +60,11 @@ border-radius:10px
 </string>
          </property>
          <property name="text">
-          <string>加入会议</string>
+          <string>获取控制</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>参会人员</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" colspan="2">
-        <widget class="QPushButton" name="btn_start">
-         <property name="styleSheet">
-          <string notr="true">border:0px;
-
-/*background-image:url(:/images/btn-menu-02.png);*/
-
-/*font:16px &quot;微软雅黑&quot;;*/
-
-color: rgb(255, 255, 255);
-
-background-color: rgb(85, 170, 255);
-
-padding:10px;
-
-border-radius:10px
-</string>
-         </property>
-         <property name="text">
-          <string>开始识别</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QPushButton" name="btn_pause">
-         <property name="styleSheet">
-          <string notr="true">border:0px;
-
-/*background-image:url(:/images/btn-menu-02.png);*/
-
-/*font:16px &quot;微软雅黑&quot;;*/
-
-color: rgb(255, 255, 255);
-
-background-color: rgb(85, 170, 255);
-
-padding:10px;
-
-border-radius:10px
-</string>
-         </property>
-         <property name="text">
-          <string>开始控制</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1" colspan="2">
-        <widget class="QListView" name="listView">
-         <property name="styleSheet">
-          <string notr="true">QListView{
-border: 1px solid rgb(85, 170, 255);
-border-radius: 10px;
-padding: 0 8px;
-}</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1" colspan="2">
+       <item row="13" column="1" colspan="2">
         <widget class="QTextBrowser" name="textBrowser">
          <property name="styleSheet">
           <string notr="true">QTextBrowser{
@@ -172,30 +80,20 @@ border-color: rgb(85, 170, 255);
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label">
-         <property name="styleSheet">
-          <string notr="true">font-family 微软雅黑
-font: 9pt &quot;微软雅黑&quot;;</string>
-         </property>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>用户名：</string>
+          <string>参会人员</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QPushButton" name="btn_get_ctrl">
+       <item row="8" column="2">
+        <widget class="QPushButton" name="btn_pause">
          <property name="styleSheet">
-          <string notr="true">border:0px;
-
-/*background-image:url(:/images/btn-menu-02.png);*/
-
-/*font:16px &quot;微软雅黑&quot;;*/
-
-color: rgb(255, 255, 255);
+          <string notr="true">color: rgb(255, 255, 255);
 
 background-color: rgb(85, 170, 255);
 
@@ -205,22 +103,50 @@ border-radius:10px
 </string>
          </property>
          <property name="text">
-          <string>获取控制</string>
+          <string>开始控制</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1" colspan="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="7" column="1" colspan="2">
+        <widget class="QPushButton" name="btn_start">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);
+
+background-color: rgb(85, 170, 255);
+
+padding:10px;
+
+border-radius:10px
+</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+         <property name="text">
+          <string>开始识别</string>
          </property>
-        </spacer>
+        </widget>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>主持人模式（本机可被控制）</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QPushButton" name="btn_join">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);
+
+background-color: rgb(85, 170, 255);
+
+padding:10px;
+
+border-radius:10px
+</string>
+         </property>
+         <property name="text">
+          <string>加入会议</string>
+         </property>
+        </widget>
        </item>
        <item row="0" column="2">
         <widget class="QLineEdit" name="lineEdit">
@@ -238,7 +164,7 @@ border-radius:10px
          </property>
         </widget>
        </item>
-       <item row="0" column="0" rowspan="14">
+       <item row="0" column="0" rowspan="15">
         <widget class="QFrame" name="frame">
          <property name="styleSheet">
           <string notr="true">border-radius:10px;
@@ -267,22 +193,6 @@ background-color: rgb(56, 56, 56);</string>
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="1" column="1" colspan="2">
-           <widget class="QLabel" name="label_controller">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>正在控制：获取中</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="margin">
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1" colspan="2">
            <widget class="QLabel" name="label_img">
             <property name="font">
@@ -303,7 +213,68 @@ World</string>
             </property>
            </widget>
           </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLabel" name="label_controller">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>正在控制：获取中</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>用户名：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QListView" name="listView">
+         <property name="styleSheet">
+          <string notr="true">QListView{
+border: 1px solid rgb(85, 170, 255);
+border-radius: 10px;
+padding: 0 8px;
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1" colspan="2">
+        <widget class="QLabel" name="label_res">
+         <property name="font">
+          <font>
+           <family>黑体</family>
+           <pointsize>32</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 1px solid rgb(85, 170, 255);
+border-radius: 10px;
+padding: 0 8px;</string>
+         </property>
+         <property name="text">
+          <string>等待手势</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
         </widget>
        </item>
       </layout>
@@ -311,6 +282,34 @@ World</string>
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1222</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_tutorials"/>
+    <addaction name="action_help"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="action_tutorials">
+   <property name="text">
+    <string>新手教学</string>
+   </property>
+  </action>
+  <action name="action_help">
+   <property name="text">
+    <string>手势说明</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

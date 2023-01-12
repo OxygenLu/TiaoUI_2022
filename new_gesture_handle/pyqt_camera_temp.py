@@ -6,12 +6,13 @@ import time
 import cv2
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPalette, QBrush, QPixmap
 import config_values as cfg
 from pynput.mouse import Button, Controller
 import numpy as np
+from floatingball_app import FloatingBall_Test
 
 
 class Ui_PyQtCameraTemp(QtWidgets.QWidget):
@@ -34,22 +35,24 @@ class Ui_PyQtCameraTemp(QtWidgets.QWidget):
 
         self.button_open_camera = QtWidgets.QPushButton(u'打开相机')
         self.button_close = QtWidgets.QPushButton(u'退出')
+        self.button_start_ball = QtWidgets.QPushButton(u'开启悬浮球')
 
         # button颜色修改
-        button_color = [self.button_open_camera, self.button_close]
-        for i in range(2):
+        button_color = [self.button_open_camera, self.button_close, self.button_start_ball]
+        for i in range(3):
             button_color[i].setStyleSheet("QPushButton{color:black}"
-                                           "QPushButton:hover{color:red}"
-                                           "QPushButton{background-color:rgb(78,255,255)}"
-                                           "QpushButton{border:2px}"
-                                           "QPushButton{border_radius:10px}"
-                                           "QPushButton{padding:2px 4px}")
+                                          "QPushButton:hover{color:red}"
+                                          "QPushButton{background-color:rgb(78,255,255)}"
+                                          "QpushButton{border:2px}"
+                                          "QPushButton{border_radius:10px}"
+                                          "QPushButton{padding:2px 4px}")
 
         self.button_open_camera.setMinimumHeight(50)
         self.button_close.setMinimumHeight(50)
+        self.button_start_ball.setMinimumHeight(50)
 
         # move()方法是移动窗口在屏幕上的位置到x = 500，y = 500的位置上
-        self.move(500, 500)
+        # self.move(500, 500)
 
         # 信息显示
         self.label_show_camera = QtWidgets.QLabel()
@@ -61,6 +64,7 @@ class Ui_PyQtCameraTemp(QtWidgets.QWidget):
 
         self.__layout_fun_button.addWidget(self.button_open_camera)
         self.__layout_fun_button.addWidget(self.button_close)
+        self.__layout_fun_button.addWidget(self.button_start_ball)
         self.__layout_fun_button.addWidget(self.label_move)
 
         self.__layout_main.addLayout(self.__layout_fun_button)
@@ -77,10 +81,23 @@ class Ui_PyQtCameraTemp(QtWidgets.QWidget):
         self.setPalette(palette1)
         '''
 
+    def start_ball(self):
+        if self.button_start_ball.text() == '关闭悬浮球':
+            self.floating_ball.close()
+            self.button_start_ball.setText('开启悬浮球')
+        else:
+            # 召唤一个新的Dialog
+            self.floating_ball = FloatingBall_Test()
+            self.floating_ball.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+            self.floating_ball.show()
+            self.button_start_ball.setText("关闭悬浮球")
+
+
     def slot_init(self):  # 建立通信连接
         self.button_open_camera.clicked.connect(self.button_open_camera_click)
         self.timer_camera.timeout.connect(self.show_camera)
         self.button_close.clicked.connect(self.close)
+        self.button_start_ball.clicked.connect(self.start_ball)
 
     def button_open_camera_click(self):
         if not self.timer_camera.isActive():
@@ -255,6 +272,9 @@ class Ui_PyQtCameraTemp(QtWidgets.QWidget):
                     cfg.bef_selecting = time.time()
                 if time.time() - cfg.bef_selecting > 0.8:
                     cfg.NOW_MODE, cfg.NOW_MODE_COLOR = self.select_mode(img, lmList, cfg.offset, x2, y2)
+                    self.floating_ball.set_ball_color((cfg.NOW_MODE_COLOR[2], cfg.NOW_MODE_COLOR[1], cfg.NOW_MODE_COLOR[0], 255 // 2))
+
+
             else:
                 cfg.bef_selecting = 0
 
@@ -284,6 +304,7 @@ class Ui_PyQtCameraTemp(QtWidgets.QWidget):
         if msg.exec_() == QtWidgets.QMessageBox.RejectRole:
             event.ignore()
         else:
+            self.floating_ball.close()
             if self.cap.isOpened():
                 self.cap.release()
             if self.timer_camera.isActive():

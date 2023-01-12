@@ -1,5 +1,5 @@
 import threading
-import cv2 as cv2
+import cv2
 import time
 from GRU import *
 import torch
@@ -10,18 +10,20 @@ import numpy as np
 class Identify:
     def __init__(self, win):
         self.win = win
+        self.isEnd = False
 
     def start(self):
         threading.Thread(target=self.run).start()
 
     def run(self):
+        self.cap = cv2.VideoCapture(0)  # 摄像头图像采集
         movement = {0: "点击", 1: "平移", 2: "缩放", 3: "抓取", 4: "旋转", 5: "无", 6: "截图", 7:'放大'}
         S = 0  # 每帧的处理时间
         device = torch.device('cpu')  # 初始化于cpu上处理
         if torch.cuda.is_available():  # 判断是否能使用cuda
             device = torch.device('cuda:0')
 
-        model = torch.load(r'model_bakk.pt', map_location='cpu').to(device)  # 载入模型
+        model = torch.load(r'model.pt', map_location='cpu').to(device)  # 载入模型
         # print(model)
         hiddem_dim = 30  # 隐藏层大小
         num_layers = 2  # GRU层数
@@ -34,9 +36,7 @@ class Identify:
 
         mp_drawing = mp.solutions.drawing_utils  # 坐标点绘制工具
         mp_hands = mp.solutions.hands
-        cap = cv2.VideoCapture(0)  # 摄像头图像采集
-        ratio = cap.get(4) / cap.get(3)  # 高宽比
-        # ratio = 1
+        ratio = self.cap.get(4) / self.cap.get(3)  # 高宽比
 
         with mp_hands.Hands(
                 static_image_mode=False,
@@ -45,7 +45,9 @@ class Identify:
                 min_tracking_confidence=0.5) as hands:
             start_time = time.time()  # 初始化当前帧帧起始时间
 
-            while cap.isOpened():
+            while self.cap.isOpened():
+                if self.isEnd:
+                    break
                 self.win.eventRunning.wait()
 
                 in_dim = torch.zeros(126)  # 使得一开始的帧为全0
@@ -56,7 +58,7 @@ class Identify:
                     time.sleep(wait_time)
                 start_time = time.time()  # 重置起始时间
 
-                success, image = cap.read()  # 获取摄像头输出
+                success, image = self.cap.read()  # 获取摄像头输出
                 image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
                 image.flags.writeable = False
@@ -141,7 +143,7 @@ class Identify:
                 confidence, rel = rel.max(1)
 
                 # 对每个动作设置单独的置信度阈值
-                cfd = {'点击': 0.7, '平移': 0.89, '缩放': 0.8, '抓取': 0.9961, '旋转': 0.8, '无': 0, '截图': 0.8, '放大': 0.995}
+                cfd = {'点击': 0.90, '平移': 0.90, '缩放': 0.99, '抓取': 0.985, '旋转': 0.99, '无': 0, '截图': 0.99, '放大': 0.9}
                 if confidence > cfd[movement[rel.item()]]:  # 超过阈值的动作将会被输出
                     now_gesture = last_gesture
                     last_gesture = movement[rel.item()]
@@ -151,6 +153,7 @@ class Identify:
                             self.win.set_gesture(movement[rel.item()])
                             prin_time = time.time()  # 重置输出时间
                             h_t = torch.zeros(num_layers, 1, hiddem_dim).to(device)  # 将当前的h_t重置
-        cap.release()
+        self.cap.release()
 
-
+    def break_loop(self):
+        self.isEnd = True
