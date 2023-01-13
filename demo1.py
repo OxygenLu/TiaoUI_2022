@@ -16,7 +16,7 @@ class mainWindd(QMainWindow):
         self.show()
 
 
-    # 鼠标进入事件    鼠标移到窗口上将会执行这个事件
+    # 鼠标进入事件鼠标移到窗口上将会执行这个事件
     def enterEvent(self, evt):
         # 判断y坐标是否等于 -498 是的话就说明它在外边，哪我们开启动画让他跑回来
         if self.y() == -498:
